@@ -15,8 +15,9 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="16dp"
+
             >
+            <!--android:padding="16dp"-->
             <!--Image -->
 
             <epicara.UI.CardImageView
@@ -24,7 +25,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true">
+                android:layout_centerHorizontal="true"
+                android:padding="16dp">
             </epicara.UI.CardImageView>
 
             <!--Image title-->
@@ -33,8 +35,9 @@
                 android:id="@+id/img_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingRight="5dp"
-                android:paddingLeft="5dp"
+                android:paddingTop="2dp"
+                android:gravity="center"
+                android:background="@drawable/ic_button_background_light_grey"
                 android:layout_below="@id/img_grid_item"/>
 
         </RelativeLayout>

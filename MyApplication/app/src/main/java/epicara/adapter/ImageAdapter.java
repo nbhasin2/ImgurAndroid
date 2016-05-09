@@ -76,6 +76,11 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder>
         notifyDataSetChanged();
     }
 
+    public ArrayList<epicara.younility.model.Image> getImageModelList()
+    {
+        return mImageModelList;
+    }
+
     // Delegated Methods
 
     @Override

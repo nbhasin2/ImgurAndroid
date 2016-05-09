@@ -1,5 +1,6 @@
 package epicara.activity;
 
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -32,6 +33,7 @@ import java.util.List;
 import epicara.Global.Constants;
 import epicara.Network.Api;
 import epicara.Network.Client;
+import epicara.UI.ItemClickSupport;
 import epicara.adapter.ImageAdapter;
 import epicara.younility.model.Image;
 import epicara.younility.model.ImageModel;
@@ -43,6 +45,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.http.Header;
+
+// Helpful link -
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -145,8 +149,25 @@ public class MainActivity extends AppCompatActivity
         gridView.setLayoutManager(mGridLayoutManager);
         onResultsScrollListener = new OnResultsScrollListener(mGridLayoutManager);
         gridView.addOnScrollListener(onResultsScrollListener);
+        itemClickSupport(gridView);
     }
 
+
+    private void itemClickSupport(RecyclerView recyclerView)
+    {
+        ItemClickSupport.addTo(recyclerView).setOnItemClickListener(
+                new ItemClickSupport.OnItemClickListener() {
+                    @Override
+                    public void onItemClicked(RecyclerView recyclerView, int position, View v) {
+
+                        Intent intent = new Intent(getBaseContext(), PhotoViewerActivity.class);
+                        Image image = ((ImageAdapter) recyclerView.getAdapter()).getImageModelList().get(position);
+                        intent.putExtra(Constants.IMAGE_LINK, image.getLink());
+                        startActivity(intent);
+                    }
+                }
+        );
+    }
 
     private void loadImages(String type, final Boolean forceReset) {
 
