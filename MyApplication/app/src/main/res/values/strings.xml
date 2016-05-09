@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Younility-Img</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+
+
+    // Constants
+
+    // Imgur
+    <string name="client_id">76f3f721d6956cf</string>
+    <string name="client_secret">e3351211515b039702b11e6d2297aa04fc9acf5f</string>
+    <string name="title_activity_photo_viewer">PhotoViewerActivity</string>
+
+</resources>
