@@ -1,5 +1,8 @@
 # ImgurAndroid
 Simple Imgur client written in Android 
+____
+Watch it live - http://gph.is/1rJIulm
+____
 
 
 ![image](https://cloud.githubusercontent.com/assets/8919439/15109959/1e3d0c9e-15ac-11e6-966b-112464be01c4.png)
