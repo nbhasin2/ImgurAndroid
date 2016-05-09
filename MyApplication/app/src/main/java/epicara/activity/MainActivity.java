@@ -107,7 +107,7 @@ public class MainActivity extends AppCompatActivity
                         .setAction("Action", null).show();
 
                 initialPage = 1;
-                currentType = Constants.MEME;
+//                currentType = Constants.MEME;
 
                 loadImages(currentType, true);
 
@@ -125,6 +125,9 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        // Load Images
+        loadImages(currentType, false);
+
         // Grid View Layout
         mGridLayoutManager = new StaggeredGridLayoutManager(2, GridLayoutManager.VERTICAL);
         mGridLayoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);
@@ -137,9 +140,6 @@ public class MainActivity extends AppCompatActivity
 
         // Grid View on item click listener
         itemClickSupport(gridView);
-
-        // Load Images
-        loadImages(currentType, false);
     }
 
     private void itemClickSupport(RecyclerView recyclerView)
