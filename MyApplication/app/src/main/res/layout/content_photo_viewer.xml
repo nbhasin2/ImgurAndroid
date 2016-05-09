@@ -12,12 +12,13 @@
 
     <!--Image -->
 
-    <ImageView
+    <pl.droidsonroids.gif.GifImageView
         android:id="@+id/photo_img"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true">
-    </ImageView>
+        android:layout_centerInParent="true"
+        android:background="@drawable/ic_loader">
+    </pl.droidsonroids.gif.GifImageView>
 
 </RelativeLayout>

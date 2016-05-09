@@ -115,6 +115,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder>
 
         CardImageView imageView = holder.imageItem;
 
+
         // Load image from Universal Image Loader
 
         imageView.setImageDrawable(null);

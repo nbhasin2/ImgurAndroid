@@ -15,12 +15,13 @@ import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListene
 
 import epicara.Global.Constants;
 import epicara.activity.R;
+import pl.droidsonroids.gif.GifImageView;
 import uk.co.senab.photoview.PhotoViewAttacher;
 
 public class PhotoViewerActivity extends AppCompatActivity {
 
     private String mImageUrl = "";
-    private ImageView mImageView;
+    private GifImageView mImageView;
     private PhotoViewAttacher mAttacher;
 
     @Override
@@ -47,7 +48,7 @@ public class PhotoViewerActivity extends AppCompatActivity {
     {
         if(!mImageUrl.isEmpty()) {
             // Any implementation of ImageView can be used!
-            mImageView = (ImageView) findViewById(R.id.photo_img);
+            mImageView = (GifImageView) findViewById(R.id.photo_img);
 
             ImageLoader imageLoader = ImageLoader.getInstance(); // Get singleton instance
             imageLoader.loadImage(mImageUrl, new SimpleImageLoadingListener() {
