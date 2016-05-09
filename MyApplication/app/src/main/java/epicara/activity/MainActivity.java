@@ -61,13 +61,10 @@ public class MainActivity extends AppCompatActivity
     private StaggeredGridLayoutManager mGridLayoutManager;
     private RecyclerView gridView;
     private int initialPage = 1;
-    int firstVisibleItemsGrid[] = new int[2];
-    OnResultsScrollListener onResultsScrollListener;
+    private int firstVisibleItemsGrid[] = new int[2];
+    private OnResultsScrollListener onResultsScrollListener;
     private String currentType = Constants.MEME;
-    Boolean resetData = false;
-
-    private boolean loading = true;
-    int pastVisiblesItems, visibleItemCount, totalItemCount;
+    private Boolean resetData = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +75,12 @@ public class MainActivity extends AppCompatActivity
         fab.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(this, R.color.colorPurpuleMix)));
         gridView = (RecyclerView) findViewById(R.id.imgur_recyclerview);
 
+        setupView();
+    }
+
+    private void setupView()
+    {
+        // Universal Image Loader Configration
 
         ImageLoaderConfiguration.Builder config = new ImageLoaderConfiguration.Builder(this);
         config.threadPriority(Thread.NORM_PRIORITY - 2);
@@ -90,11 +93,13 @@ public class MainActivity extends AppCompatActivity
         // Initialize ImageLoader with configuration.
         ImageLoader.getInstance().init(config.build());
 
+
         setSupportActionBar(toolbar);
 
-
+        // Setup Api
         imgurApi = Client.getClient();
 
+        // Setup reload FAB
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -109,6 +114,8 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+        // Drawer setup
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -118,40 +125,22 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        loadImages(currentType, false);
-
+        // Grid View Layout
         mGridLayoutManager = new StaggeredGridLayoutManager(2, GridLayoutManager.VERTICAL);
         mGridLayoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);
-
         mLinearLayoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false);
-
-//        gridView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-//            @Override
-//            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-//                if (dy > 0) //check for scroll down
-//                {
-//                    visibleItemCount = mLinearLayoutManager.getChildCount();
-//                    totalItemCount = mLinearLayoutManager.getItemCount();
-//                    pastVisiblesItems = mLinearLayoutManager.findFirstVisibleItemPosition();
-//
-//                    if (loading) {
-//                        if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
-//                            loading = false;
-//                            Log.v("...", "Last Item Wow !");
-//                            loadImages(currentType);
-//                            //Do pagination.. i.e. fetch new data
-//                        }
-//                    }
-//                }
-//            }
-//        });
-
         gridView.setLayoutManager(mGridLayoutManager);
+
+        // Grid View Scroll Listener (pagination)
         onResultsScrollListener = new OnResultsScrollListener(mGridLayoutManager);
         gridView.addOnScrollListener(onResultsScrollListener);
-        itemClickSupport(gridView);
-    }
 
+        // Grid View on item click listener
+        itemClickSupport(gridView);
+
+        // Load Images
+        loadImages(currentType, false);
+    }
 
     private void itemClickSupport(RecyclerView recyclerView)
     {
@@ -189,14 +178,14 @@ public class MainActivity extends AppCompatActivity
 
         }
 
-        Log.d("MainActivity", "Page Num = " + initialPage);
+//        Log.d("MainActivity", "Page Num = " + initialPage);
 
         getImages.enqueue(new Callback<ImageModel>() {
 
             @Override
             public void onResponse(Call<ImageModel> call, Response<ImageModel> response) {
-                Log.d("MainActivity", "Response Code = " + response.code());
-                Log.d("MainActivity", "Response Body = " + response.body().getImages());
+//                Log.d("MainActivity", "Response Code = " + response.code());
+//                Log.d("MainActivity", "Response Body = " + response.body().getImages());
                 if((resetData == true || forceReset == true) && response.isSuccessful() && initialPage < 2 && mImageAdapter != null)
                 {
                     gridView.removeOnScrollListener(onResultsScrollListener);
@@ -221,7 +210,7 @@ public class MainActivity extends AppCompatActivity
                 resetData = false;
                 Headers headerList = response.headers();
 
-                Log.d("MainActivity", "Header Code = " + headerList.toString());
+//                Log.d("MainActivity", "Header Code = " + headerList.toString());
 
             }
 
@@ -233,6 +222,8 @@ public class MainActivity extends AppCompatActivity
 
         });
     }
+
+    //http://stackoverflow.com/questions/26543131/how-to-implement-endless-list-with-recyclerview
 
     private class OnResultsScrollListener extends RecyclerView.OnScrollListener {
 
@@ -332,7 +323,6 @@ public class MainActivity extends AppCompatActivity
 
             loadImages(Constants.FUNNY, false);
         }
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;

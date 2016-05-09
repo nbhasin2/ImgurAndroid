@@ -42,12 +42,13 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder>
 
         ContextCompat.getColor(context, R.color.colorGreen);
 
-         circularLoader = new CircularProgressDrawable.Builder()
-                .setRingWidth(context.getResources().getDimensionPixelSize(R.dimen.drawable_ring_size))
-                 .setOutlineColor(ContextCompat.getColor(context, R.color.colorGreen))
-                 .setRingColor(ContextCompat.getColor(context, R.color.colorAccent))
-                .setCenterColor(ContextCompat.getColor(context, R.color.colorPrimary))
-                .create();
+//         Use it with Glide
+//         circularLoader = new CircularProgressDrawable.Builder()
+//                .setRingWidth(context.getResources().getDimensionPixelSize(R.dimen.drawable_ring_size))
+//                 .setOutlineColor(ContextCompat.getColor(context, R.color.colorGreen))
+//                 .setRingColor(ContextCompat.getColor(context, R.color.colorAccent))
+//                .setCenterColor(ContextCompat.getColor(context, R.color.colorPrimary))
+//                .create();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
