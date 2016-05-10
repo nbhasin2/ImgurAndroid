@@ -152,6 +152,7 @@ public class MainActivity extends AppCompatActivity
                         Intent intent = new Intent(getBaseContext(), PhotoViewerActivity.class);
                         Image image = ((ImageAdapter) recyclerView.getAdapter()).getImageModelList().get(position);
                         intent.putExtra(Constants.IMAGE_LINK, image.getLink());
+                        intent.putExtra(Constants.IMAGE_IS_GIF, image.isGif());
                         startActivity(intent);
                     }
                 }

@@ -11,6 +11,10 @@ import com.google.gson.annotations.SerializedName;
  */
 public class Image implements Parcelable {
 
+    // Image Constants
+
+    public static final String TYPE_GIF = "image/gif";
+
     @SerializedName("id")
     private String id;
 
@@ -80,7 +84,6 @@ public class Image implements Parcelable {
         return link;
     }
 
-
     public Integer getHeight() {
         return height;
     }
@@ -89,6 +92,23 @@ public class Image implements Parcelable {
         this.height = height;
     }
 
+
+    public Boolean isGif()
+    {
+
+        if(type != null)
+        {
+            if(type.equals(TYPE_GIF))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        return false;
+    }
 
     @Override
     public int describeContents() {

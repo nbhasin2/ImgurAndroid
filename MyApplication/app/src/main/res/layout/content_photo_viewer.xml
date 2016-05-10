@@ -12,13 +12,21 @@
 
     <!--Image -->
 
-    <pl.droidsonroids.gif.GifImageView
+    <com.doctoror.gifimageloader.NetworkGifImageView
         android:id="@+id/photo_img"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentTop="true"
         android:layout_centerInParent="true"
-        android:background="@drawable/ic_loader">
-    </pl.droidsonroids.gif.GifImageView>
+        android:layout_centerHorizontal="true">
+    </com.doctoror.gifimageloader.NetworkGifImageView>
+
+    <ImageView
+        android:id="@+id/photo_img_regular"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true">
+    </ImageView>
 
 </RelativeLayout>

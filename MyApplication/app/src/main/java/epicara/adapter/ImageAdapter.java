@@ -8,10 +8,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.signature.StringSignature;
+import com.doctoror.gifimageloader.DefaultGifImageLoader;
+import com.doctoror.gifimageloader.GifImageLoader;
+import com.doctoror.gifimageloader.NetworkGifImageView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.sefford.circularprogressdrawable.CircularProgressDrawable;
 import com.squareup.picasso.Picasso;
@@ -22,6 +29,7 @@ import epicara.UI.CardImageView;
 import epicara.activity.R;
 import epicara.younility.model.ImageModel;
 import it.gmariotti.cardslib.library.internal.Card;
+import pl.droidsonroids.gif.GifImageView;
 
 /**
  * Created by nishant on 16-05-08.
@@ -33,28 +41,25 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder>
 
     private ArrayList<epicara.younility.model.Image> mImageModelList;
     private CircularProgressDrawable circularLoader;
-
+    private GifImageLoader mImageLoader;
     // Constructor
 
     public ImageAdapter(ArrayList<epicara.younility.model.Image> imageModellist, Context context)
     {
         mImageModelList = imageModellist;
 
-        ContextCompat.getColor(context, R.color.colorGreen);
+        mImageLoader = DefaultGifImageLoader
+                .getInstance(context, epicara.Global.Configuration.LRU_CACHE_SIZE_IN_BYTES);
 
-//         Use it with Glide
-//         circularLoader = new CircularProgressDrawable.Builder()
-//                .setRingWidth(context.getResources().getDimensionPixelSize(R.dimen.drawable_ring_size))
-//                 .setOutlineColor(ContextCompat.getColor(context, R.color.colorGreen))
-//                 .setRingColor(ContextCompat.getColor(context, R.color.colorAccent))
-//                .setCenterColor(ContextCompat.getColor(context, R.color.colorPrimary))
-//                .create();
+        ContextCompat.getColor(context, R.color.colorGreen);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         public TextView imageDescription;
         public CardImageView imageItem;
+        public GifImageView progressGif;
+        public NetworkGifImageView imageIteamNetwork;
 
         public ViewHolder(View itemView) {
 
@@ -62,6 +67,8 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder>
 
             imageDescription = (TextView) itemView.findViewById(R.id.img_description);
             imageItem = (CardImageView) itemView.findViewById(R.id.img_grid_item);
+            progressGif = (GifImageView) itemView.findViewById(R.id.progressGif);
+            imageIteamNetwork = (NetworkGifImageView) itemView.findViewById(R.id.img_grid_item_network);
         }
     }
 
@@ -104,23 +111,91 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder>
         epicara.younility.model.Image model = mImageModelList.get(position);
 
         // Set item views based on the data model
+
         TextView textView = holder.imageDescription;
         textView.setText(model.getTitle());
+
+        // Progress gif
+
+        GifImageView progressGif = holder.progressGif;
+        progressGif.setVisibility(View.GONE);
+
+        // Set image view
+
+        CardImageView imageView = holder.imageItem;
+        NetworkGifImageView imageViewNetwork = holder.imageIteamNetwork;
+
+        imageView.setVisibility(View.GONE);
+        imageViewNetwork.setVisibility(View.GONE);
 
         // Get image url
 
         String imageUrl = model.getLink();
 
-        // Set image view
-
-        CardImageView imageView = holder.imageItem;
 
 
         // Load image from Universal Image Loader
 
         imageView.setImageDrawable(null);
-        ImageLoader imageLoader = ImageLoader.getInstance(); // Get singleton instance
-        imageLoader.displayImage(imageUrl,imageView);
+
+        if(model.isGif())
+        {
+            imageViewNetwork.setVisibility(View.VISIBLE);
+            imageViewNetwork.setImageUrl(imageUrl, mImageLoader);
+        }
+        else {
+
+            imageView.setVisibility(View.VISIBLE);
+            ImageLoader imageLoader = ImageLoader.getInstance(); // Get singleton instance
+            imageLoader.displayImage(imageUrl, imageView);
+            imageView.setAspectRatio(1.0f);
+        }
+
+
+//        progressGif.setVisibility(View.VISIBLE);
+//
+//        Glide.with(holder.imageItem.getContext())
+//                .load("http://i.giphy.com/WLIerIoiUJL1K.gif")
+//                .listener(new RequestListener<String, GlideDrawable>() {
+//                    @Override
+//                    public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+//                        return false;
+//                    }
+//
+//                    @Override
+//                    public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+//                        progressGif.setVisibility(View.GONE);
+//                        return false;
+//                    }
+//                })
+//                .into(imageView);
+//
+//        imageView.setAspectRatio(1.0f);
+
+//            Glide.with(holder.imageItem.getContext())
+//                    .load(imageUrl)
+//                    .placeholder(R.drawable.ic_loader)
+//                    .into(imageView);
+
+//        Glide.with(holder.imageItem.getContext())
+//                .load(imageUrl)
+//                .into(imageView);
+
+//        if(model.isGif())
+//        {
+//            Glide.with(holder.imageItem.getContext())
+//                    .load(imageUrl)
+//                    .asGif()
+//                    .placeholder(R.drawable.ic_loader)
+//                    .into(imageView);
+//
+//        }else
+//        {
+//            Glide.with(holder.imageItem.getContext())
+//                    .load(imageUrl)
+//                    .into(imageView);
+//        }
+
         imageView.setAspectRatio(1.0f);
 
 

@@ -11,4 +11,5 @@ public interface Constants {
     // PhotoviewerActivity
 
     public static final String IMAGE_LINK = "IMG_LINK";
+    public static final String IMAGE_IS_GIF = "IMG_IS_GIF";
 }
